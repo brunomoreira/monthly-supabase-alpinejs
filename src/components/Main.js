@@ -53,6 +53,8 @@ export default () => ({
                 backdrop: "static",
             });
 
+            this.$refs["profile-modal"].style.zIndex = "-1";
+
             this.$refs["profile-modal"].addEventListener(
                 "show.bs.modal",
                 () => {
