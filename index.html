@@ -118,6 +118,7 @@
                         <div x-data="dashboard">
                             <!-- Add Product Form -->
                             <div
+                                x-data="addProductForm"
                                 x-ref="add-product-form"
                                 class="offcanvas offcanvas-end"
                                 tabindex="-1"
@@ -371,7 +372,7 @@
                                                         >
                                                     </h3>
                                                     <button
-                                                        x-on:click="openAddProduct()"
+                                                        x-on:click="$dispatch('open-add-product-form')"
                                                         class="btn btn-primary"
                                                     >
                                                         Add Product
