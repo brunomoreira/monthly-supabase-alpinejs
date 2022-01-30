@@ -10,7 +10,10 @@
     <body class="flaty">
         <div x-data="main">
             <!-- Navbar -->
-            <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <nav
+                class="navbar navbar-expand-lg navbar-dark bg-primary"
+                id="navbar"
+            >
                 <div class="container-fluid">
                     <a class="navbar-brand" href="#">Monthly</a>
                     <button
@@ -37,40 +40,37 @@
                                 </li>
                             </template>
                         </ul>
-                        <template x-if="$store.userStore.user">
-                            <div class="d-flex">
-                                <div
-                                    x-data="() => ({
-                                        init() {
-                                            new Dropdown(this.$refs['theme-dropdown-toggle'])
-                                        },
-                                    })"
-                                    class="nav-item dropdown"
+                        <div class="d-flex">
+                            <div
+                                x-data="() => ({
+                                    init() {
+                                        new Dropdown(this.$refs['theme-dropdown-toggle'])
+                                    },
+                                })"
+                                class="nav-item dropdown"
+                            >
+                                <button
+                                    x-ref="theme-dropdown-toggle"
+                                    class="btn btn-link nav-link dropdown-toggle text-white ps-0"
+                                    type="button"
+                                    data-bs-toggle="dropdown"
                                 >
-                                    <button
-                                        x-ref="theme-dropdown-toggle"
-                                        class="btn btn-link nav-link dropdown-toggle text-white ps-0"
-                                        type="button"
-                                        data-bs-toggle="dropdown"
+                                    Themes
+                                </button>
+                                <div class="dropdown-menu" id="themes-dp-menu">
+                                    <template
+                                        x-for="theme in $store.themesStore.themes"
                                     >
-                                        Themes
-                                    </button>
-                                    <div
-                                        class="dropdown-menu"
-                                        id="themes-dp-menu"
-                                    >
-                                        <template
-                                            x-for="theme in $store.themesStore.themes"
-                                        >
-                                            <button
-                                                x-text="theme"
-                                                x-on:click="$store.themesStore.change(theme)"
-                                                class="btn btn-link dropdown-item w-75 mx-auto text-center mb-2"
-                                                :class="theme == $store.themesStore.activeTheme ? 'active' : ''"
-                                            ></button>
-                                        </template>
-                                    </div>
+                                        <button
+                                            x-text="theme"
+                                            x-on:click="$store.themesStore.change(theme)"
+                                            class="btn btn-link dropdown-item w-75 mx-auto text-center mb-2"
+                                            :class="theme == $store.themesStore.activeTheme ? 'active' : ''"
+                                        ></button>
+                                    </template>
                                 </div>
+                            </div>
+                            <template x-if="$store.userStore.user">
                                 <div
                                     x-data="() => ({
                                         init() {
@@ -102,8 +102,8 @@
                                         </button>
                                     </div>
                                 </div>
-                            </div>
-                        </template>
+                            </template>
+                        </div>
                     </div>
                 </div>
             </nav>
