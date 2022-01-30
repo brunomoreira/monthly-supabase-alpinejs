@@ -368,13 +368,13 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- END: Graph -->
                                 </template>
+                                <!-- END: Graph -->
 
+                                <!-- Table -->
                                 <template
                                     x-if="$store.productsStore.products.length > 0"
                                 >
-                                    <!-- Table -->
                                     <div x-data="table">
                                         <div class="row mt-5">
                                             <div class="col-12">
@@ -412,14 +412,14 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- END: Table -->
                                 </template>
+                                <!-- END: Table -->
                             </div>
                         </div>
                     </template>
                     <!-- END: Dashboard -->
 
-                    <!-- Profile -->
+                    <!-- Profile Modal -->
                     <div
                         x-ref="profile-modal"
                         id="profile-modal"
@@ -484,15 +484,17 @@
                                     </div>
                                 </div>
                                 <div class="modal-footer">
-                                    <p>
-                                        Lorem ipsum dolor sit amet consectetur
-                                        adipisicing elit. Amet, ullam.
+                                    <p class="fst-italic">
+                                        <q
+                                            >We're nothing but shadows and dust
+                                            Maximus!</q
+                                        >
                                     </p>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <!-- END: Profile -->
+                    <!-- END: Profile Modal -->
                 </div>
             </template>
 
