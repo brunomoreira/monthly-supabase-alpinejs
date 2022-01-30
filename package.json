@@ -1,0 +1,24 @@
+{
+    "name": "monthly",
+    "version": "0.0.0",
+    "scripts": {
+        "dev": "vite",
+        "build": "tsc && vite build",
+        "preview": "vite preview"
+    },
+    "devDependencies": {
+        "@types/alpinejs": "^3.7.0",
+        "sass": "^1.49.0",
+        "typescript": "^4.4.4",
+        "vite": "^2.7.2"
+    },
+    "dependencies": {
+        "@supabase/supabase-js": "^1.29.3",
+        "alpinejs": "^3.8.1",
+        "apexcharts": "^3.33.0",
+        "bootstrap": "^5.1.3",
+        "joi": "^17.5.0",
+        "pikaday": "^1.8.2",
+        "tabulator-tables": "^5.0.10"
+    }
+}
