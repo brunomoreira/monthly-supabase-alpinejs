@@ -82,6 +82,10 @@ export default () => ({
             this.updateSeries();
         });
 
+        window.addEventListener("user-logout", () => {
+            this.clean();
+        });
+
         this.build();
     },
     updateGraph(options, activeYear) {

@@ -35,6 +35,7 @@ export default () => ({
             window.sessionStorage.removeItem("montlhy-jwt");
             this.$store.userStore.setUser(null);
             this.$store.viewStore.setView("login");
+            this.$dispatch("user-logout");
         } catch (error) {
             console.error(error);
         }
