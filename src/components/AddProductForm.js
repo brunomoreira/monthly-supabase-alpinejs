@@ -31,8 +31,6 @@ export default () => ({
             errors.forEach((error) => {
                 let { path, message } = error;
 
-                console.log(path, message);
-
                 this.$refs[`add-product-input-${path}`].classList.add(
                     "is-invalid"
                 );
