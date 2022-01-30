@@ -142,11 +142,16 @@
                                                 >Name</label
                                             >
                                             <input
+                                                x-ref="add-product-input-name"
                                                 x-model="newProduct.name"
                                                 type="text"
                                                 class="form-control"
                                                 id="add-product-name"
                                             />
+                                            <div
+                                                x-ref="add-product-input-name-feedback"
+                                                class="invalid-feedback"
+                                            ></div>
                                         </div>
                                         <div class="form-group">
                                             <label
@@ -155,12 +160,16 @@
                                                 >Price</label
                                             >
                                             <input
+                                                x-ref="add-product-input-price"
                                                 x-model.number="newProduct.price"
-                                                type="number"
-                                                min="0"
+                                                type="text"
                                                 class="form-control"
                                                 id="add-product-price"
                                             />
+                                            <div
+                                                x-ref="add-product-input-price-feedback"
+                                                class="invalid-feedback"
+                                            ></div>
                                         </div>
                                         <div class="form-group">
                                             <label
@@ -169,6 +178,7 @@
                                                 >Type</label
                                             >
                                             <select
+                                                x-ref="add-product-input-type_id"
                                                 x-model="newProduct.type_id"
                                                 class="form-select"
                                                 id="add-product-type"
@@ -213,6 +223,10 @@
                                                     Indefinido
                                                 </option>
                                             </select>
+                                            <div
+                                                x-ref="add-product-input-type_id-feedback"
+                                                class="invalid-feedback"
+                                            ></div>
                                         </div>
                                         <div class="form-group">
                                             <label
@@ -221,11 +235,15 @@
                                                 >Date</label
                                             >
                                             <input
-                                                x-ref="add-product-date-input"
+                                                x-ref="add-product-input-date"
                                                 type="text"
                                                 class="form-control"
                                                 id="add-product-date"
                                             />
+                                            <div
+                                                x-ref="add-product-input-date-feedback"
+                                                class="invalid-feedback"
+                                            ></div>
                                         </div>
                                         <div
                                             class="w-100 position-absolute start-0 d-flex justify-content-center align-items-center"
