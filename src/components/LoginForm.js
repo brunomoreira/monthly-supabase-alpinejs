@@ -56,6 +56,7 @@ export default () => ({
                 );
                 this.$store.userStore.setUser(user);
                 this.$store.viewStore.setView("dashboard");
+                this.$dispatch("user-login");
             }
         } catch (error) {
             this.errors = error.details;

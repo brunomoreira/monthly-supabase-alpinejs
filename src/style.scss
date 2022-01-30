@@ -21,3 +21,9 @@ body {
 #navbar {
     z-index: 9999;
 }
+
+#profile-modal {
+    .modal-body {
+        padding: 4rem;
+    }
+}

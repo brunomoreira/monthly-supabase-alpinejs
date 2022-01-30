@@ -1,7 +1,13 @@
 import supabase from "../db";
+import { Modal } from "bootstrap";
 
 export default () => ({
+    profileModal: null,
     init() {
+        window.addEventListener("user-login", () => {
+            this.setupProfileModal();
+        });
+
         let token = JSON.parse(window.sessionStorage.getItem("montlhy-jwt"));
 
         if (token) {
@@ -10,6 +16,7 @@ export default () => ({
             if (expires_at * 1000 > Date.now()) {
                 this.$store.userStore.setUser(user);
                 this.$store.viewStore.setView("dashboard");
+                this.setupProfileModal();
             }
         }
 
@@ -39,5 +46,29 @@ export default () => ({
         } catch (error) {
             console.error(error);
         }
+    },
+    setupProfileModal() {
+        this.$nextTick(() => {
+            this.profileModal = new Modal(this.$refs["profile-modal"], {
+                backdrop: "static",
+            });
+
+            this.$refs["profile-modal"].addEventListener(
+                "show.bs.modal",
+                () => {
+                    this.$refs["profile-modal"].style.zIndex = "9999999999";
+                }
+            );
+
+            this.$refs["profile-modal"].addEventListener(
+                "hidden.bs.modal",
+                () => {
+                    this.$refs["profile-modal"].style.zIndex = "-1";
+                }
+            );
+        });
+    },
+    showProfileModal() {
+        this.profileModal?.show();
     },
 });

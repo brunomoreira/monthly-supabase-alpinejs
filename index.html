@@ -88,6 +88,7 @@
                                     ></button>
                                     <div class="dropdown-menu">
                                         <button
+                                            x-on:click="showProfileModal()"
                                             class="btn btn-link dropdown-item w-75 mx-auto text-center"
                                         >
                                             Profile
@@ -111,267 +112,369 @@
 
             <!-- If user -->
             <template x-if="$store.userStore.user">
-                <!-- Dashboard -->
-                <template x-if="$store.viewStore.view == 'dashboard'">
-                    <div x-data="dashboard">
-                        <!-- Add Product Form -->
-                        <div
-                            x-ref="add-product-form"
-                            class="offcanvas offcanvas-end"
-                            tabindex="-1"
-                            aria-labelledby="offcanvasExampleLabel"
-                        >
-                            <div class="offcanvas-header">
-                                <h5 class="offcanvas-title">Add Product</h5>
-                                <button
-                                    x-on:click="closeAddProduct()"
-                                    type="button"
-                                    class="btn-close text-reset"
-                                    aria-label="Close"
-                                ></button>
-                            </div>
-                            <div class="offcanvas-body">
-                                <form x-on:submit.prevent="addProduct()">
-                                    <div class="form-group">
-                                        <label
-                                            for="add-product-name"
-                                            class="form-label mt-4"
-                                            >Name</label
-                                        >
-                                        <input
-                                            x-model="newProduct.name"
-                                            type="text"
-                                            class="form-control"
-                                            id="add-product-name"
-                                        />
-                                    </div>
-                                    <div class="form-group">
-                                        <label
-                                            for="add-product-price"
-                                            class="form-label mt-4"
-                                            >Price</label
-                                        >
-                                        <input
-                                            x-model.number="newProduct.price"
-                                            type="number"
-                                            min="0"
-                                            class="form-control"
-                                            id="add-product-price"
-                                        />
-                                    </div>
-                                    <div class="form-group">
-                                        <label
-                                            for="add-product-type"
-                                            class="form-label mt-4"
-                                            >Type</label
-                                        >
-                                        <select
-                                            x-model="newProduct.type_id"
-                                            class="form-select"
-                                            id="add-product-type"
-                                        >
-                                            <option value="">-</option>
-                                            <option value="11">Animais</option>
-                                            <option value="3">Bebidas</option>
-                                            <option value="7">Bebé</option>
-                                            <option value="5">Beleza</option>
-                                            <option value="10">Casa</option>
-                                            <option value="6">
-                                                Congelados
-                                            </option>
-                                            <option value="4">Frescos</option>
-                                            <option value="8">Higiene</option>
-                                            <option value="2">
-                                                Lacticínios
-                                            </option>
-                                            <option value="12">Lazer</option>
-                                            <option value="9">Limpeza</option>
-                                            <option value="1">Mercearia</option>
-                                            <option value="13">Saúde</option>
-                                            <option value="14">
-                                                Indefinido
-                                            </option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label
-                                            for="add-product-date"
-                                            class="form-label mt-4"
-                                            >Date</label
-                                        >
-                                        <input
-                                            x-ref="add-product-date-input"
-                                            type="text"
-                                            class="form-control"
-                                            id="add-product-date"
-                                        />
-                                    </div>
-                                    <div
-                                        class="w-100 position-absolute start-0 d-flex justify-content-center align-items-center"
-                                        style="bottom: 1rem"
-                                    >
-                                        <button
-                                            x-on:click="resetForm()"
-                                            type="button"
-                                            class="btn btn-danger me-2"
-                                        >
-                                            Reset Form
-                                        </button>
-                                        <button
-                                            type="submit"
-                                            class="btn btn-primary"
-                                        >
-                                            Save Product
-                                        </button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                        <!-- END: Add Product Form -->
-
-                        <div class="container-lg mt-4 pb-4 pt-0 pt-sm-2">
-                            <!-- Stats -->
-                            <div x-data="stats" class="row mt-4">
-                                <div class="col-12 col-sm-4">
-                                    <div
-                                        class="card text-white bg-primary mb-3"
-                                    >
-                                        <div class="card-header">
-                                            Average Month Spending
-                                        </div>
-                                        <div class="card-body">
-                                            <h4
-                                                x-text="average"
-                                                class="card-title"
-                                            ></h4>
-                                            <p class="card-text fst-italic">
-                                                Average is calculated by adding
-                                                all of the month totals of each
-                                                available year.
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-sm-4">
-                                    <div
-                                        class="card text-white bg-primary mb-3"
-                                    >
-                                        <div class="card-header">
-                                            Most Popular Product
-                                        </div>
-                                        <div class="card-body">
-                                            <h4
-                                                x-text="mostPopular?.mostPopularProduct.name"
-                                                class="card-title"
-                                            ></h4>
-                                            <p class="card-text fst-italic">
-                                                The total amount spent was
-                                                <span
-                                                    x-text="mostPopular?.mostPopularProduct.total"
-                                                ></span>
-                                                .
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-sm-4">
-                                    <div
-                                        class="card text-white bg-primary mb-3"
-                                    >
-                                        <div class="card-header">
-                                            Most Popular Type
-                                        </div>
-                                        <div class="card-body">
-                                            <h4
-                                                x-text="mostPopular?.mostPopularType.name"
-                                                class="card-title"
-                                            ></h4>
-                                            <p class="card-text fst-italic">
-                                                There is a total of
-                                                <span
-                                                    x-text="mostPopular?.mostPopularType.total"
-                                                ></span>
-                                                <q
-                                                    ><span
-                                                        x-text="mostPopular?.mostPopularType.name"
-                                                    ></span
-                                                ></q>
-                                                products.
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- END: Stats -->
-
-                            <!-- Graph -->
-                            <template
-                                x-if="$store.productsStore.products.length > 0"
+                <div>
+                    <!-- Dashboard -->
+                    <template x-if="$store.viewStore.view == 'dashboard'">
+                        <div x-data="dashboard">
+                            <!-- Add Product Form -->
+                            <div
+                                x-ref="add-product-form"
+                                class="offcanvas offcanvas-end"
+                                tabindex="-1"
+                                aria-labelledby="offcanvasExampleLabel"
                             >
-                                <div class="row mt-5">
-                                    <div class="col-12">
-                                        <h3>
-                                            Graph
-                                            <small class="text-muted"
-                                                >with all the data!</small
+                                <div class="offcanvas-header">
+                                    <h5 class="offcanvas-title">Add Product</h5>
+                                    <button
+                                        x-on:click="closeAddProduct()"
+                                        type="button"
+                                        class="btn-close text-reset"
+                                        aria-label="Close"
+                                    ></button>
+                                </div>
+                                <div class="offcanvas-body">
+                                    <form x-on:submit.prevent="addProduct()">
+                                        <div class="form-group">
+                                            <label
+                                                for="add-product-name"
+                                                class="form-label mt-4"
+                                                >Name</label
                                             >
-                                        </h3>
-                                        <div x-data="graph" class="card py-4">
-                                            <div x-ref="graph-ref"></div>
-                                            <div
-                                                id="graph-actions-wrapper"
-                                                class="d-flex justify-content-center align-items-center"
-                                            ></div>
+                                            <input
+                                                x-model="newProduct.name"
+                                                type="text"
+                                                class="form-control"
+                                                id="add-product-name"
+                                            />
+                                        </div>
+                                        <div class="form-group">
+                                            <label
+                                                for="add-product-price"
+                                                class="form-label mt-4"
+                                                >Price</label
+                                            >
+                                            <input
+                                                x-model.number="newProduct.price"
+                                                type="number"
+                                                min="0"
+                                                class="form-control"
+                                                id="add-product-price"
+                                            />
+                                        </div>
+                                        <div class="form-group">
+                                            <label
+                                                for="add-product-type"
+                                                class="form-label mt-4"
+                                                >Type</label
+                                            >
+                                            <select
+                                                x-model="newProduct.type_id"
+                                                class="form-select"
+                                                id="add-product-type"
+                                            >
+                                                <option value="">-</option>
+                                                <option value="11">
+                                                    Animais
+                                                </option>
+                                                <option value="3">
+                                                    Bebidas
+                                                </option>
+                                                <option value="7">Bebé</option>
+                                                <option value="5">
+                                                    Beleza
+                                                </option>
+                                                <option value="10">Casa</option>
+                                                <option value="6">
+                                                    Congelados
+                                                </option>
+                                                <option value="4">
+                                                    Frescos
+                                                </option>
+                                                <option value="8">
+                                                    Higiene
+                                                </option>
+                                                <option value="2">
+                                                    Lacticínios
+                                                </option>
+                                                <option value="12">
+                                                    Lazer
+                                                </option>
+                                                <option value="9">
+                                                    Limpeza
+                                                </option>
+                                                <option value="1">
+                                                    Mercearia
+                                                </option>
+                                                <option value="13">
+                                                    Saúde
+                                                </option>
+                                                <option value="14">
+                                                    Indefinido
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label
+                                                for="add-product-date"
+                                                class="form-label mt-4"
+                                                >Date</label
+                                            >
+                                            <input
+                                                x-ref="add-product-date-input"
+                                                type="text"
+                                                class="form-control"
+                                                id="add-product-date"
+                                            />
+                                        </div>
+                                        <div
+                                            class="w-100 position-absolute start-0 d-flex justify-content-center align-items-center"
+                                            style="bottom: 1rem"
+                                        >
+                                            <button
+                                                x-on:click="resetForm()"
+                                                type="button"
+                                                class="btn btn-danger me-2"
+                                            >
+                                                Reset Form
+                                            </button>
+                                            <button
+                                                type="submit"
+                                                class="btn btn-primary"
+                                            >
+                                                Save Product
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <!-- END: Add Product Form -->
+
+                            <div class="container-lg mt-4 pb-4 pt-0 pt-sm-2">
+                                <!-- Stats -->
+                                <div x-data="stats" class="row mt-4">
+                                    <div class="col-12 col-sm-4">
+                                        <div
+                                            class="card text-white bg-primary mb-3"
+                                        >
+                                            <div class="card-header">
+                                                Average Month Spending
+                                            </div>
+                                            <div class="card-body">
+                                                <h4
+                                                    x-text="average"
+                                                    class="card-title"
+                                                ></h4>
+                                                <p class="card-text fst-italic">
+                                                    Average is calculated by
+                                                    adding all of the month
+                                                    totals of each available
+                                                    year.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-4">
+                                        <div
+                                            class="card text-white bg-primary mb-3"
+                                        >
+                                            <div class="card-header">
+                                                Most Popular Product
+                                            </div>
+                                            <div class="card-body">
+                                                <h4
+                                                    x-text="mostPopular?.mostPopularProduct.name"
+                                                    class="card-title"
+                                                ></h4>
+                                                <p class="card-text fst-italic">
+                                                    The total amount spent was
+                                                    <span
+                                                        x-text="mostPopular?.mostPopularProduct.total"
+                                                    ></span>
+                                                    .
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-4">
+                                        <div
+                                            class="card text-white bg-primary mb-3"
+                                        >
+                                            <div class="card-header">
+                                                Most Popular Type
+                                            </div>
+                                            <div class="card-body">
+                                                <h4
+                                                    x-text="mostPopular?.mostPopularType.name"
+                                                    class="card-title"
+                                                ></h4>
+                                                <p class="card-text fst-italic">
+                                                    There is a total of
+                                                    <span
+                                                        x-text="mostPopular?.mostPopularType.total"
+                                                    ></span>
+                                                    <q
+                                                        ><span
+                                                            x-text="mostPopular?.mostPopularType.name"
+                                                        ></span
+                                                    ></q>
+                                                    products.
+                                                </p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <!-- END: Graph -->
-                            </template>
+                                <!-- END: Stats -->
 
-                            <template
-                                x-if="$store.productsStore.products.length > 0"
-                            >
-                                <!-- Table -->
-                                <div x-data="table">
+                                <!-- Graph -->
+                                <template
+                                    x-if="$store.productsStore.products.length > 0"
+                                >
                                     <div class="row mt-5">
                                         <div class="col-12">
-                                            <div
-                                                class="d-flex justify-content-between align-items-center"
-                                            >
-                                                <h3>
-                                                    Table
-                                                    <small class="text-muted"
-                                                        >with all the
-                                                        data!</small
-                                                    >
-                                                </h3>
-                                                <button
-                                                    x-on:click="openAddProduct()"
-                                                    class="btn btn-primary"
+                                            <h3>
+                                                Graph
+                                                <small class="text-muted"
+                                                    >with all the data!</small
                                                 >
-                                                    Add Product
-                                                </button>
+                                            </h3>
+                                            <div
+                                                x-data="graph"
+                                                class="card py-4"
+                                            >
+                                                <div x-ref="graph-ref"></div>
+                                                <div
+                                                    id="graph-actions-wrapper"
+                                                    class="d-flex justify-content-center align-items-center"
+                                                ></div>
                                             </div>
-                                            <div class="mt-4 mb-2">
+                                        </div>
+                                    </div>
+                                    <!-- END: Graph -->
+                                </template>
+
+                                <template
+                                    x-if="$store.productsStore.products.length > 0"
+                                >
+                                    <!-- Table -->
+                                    <div x-data="table">
+                                        <div class="row mt-5">
+                                            <div class="col-12">
+                                                <div
+                                                    class="d-flex justify-content-between align-items-center"
+                                                >
+                                                    <h3>
+                                                        Table
+                                                        <small
+                                                            class="text-muted"
+                                                            >with all the
+                                                            data!</small
+                                                        >
+                                                    </h3>
+                                                    <button
+                                                        x-on:click="openAddProduct()"
+                                                        class="btn btn-primary"
+                                                    >
+                                                        Add Product
+                                                    </button>
+                                                </div>
+                                                <div class="mt-4 mb-2">
+                                                    <input
+                                                        x-model="search"
+                                                        type="search"
+                                                        class="form-control"
+                                                        placeholder="Search product..."
+                                                    />
+                                                </div>
+                                                <div>
+                                                    <div
+                                                        x-ref="table-ref"
+                                                    ></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- END: Table -->
+                                </template>
+                            </div>
+                        </div>
+                    </template>
+                    <!-- END: Dashboard -->
+
+                    <!-- Profile -->
+                    <div
+                        x-ref="profile-modal"
+                        id="profile-modal"
+                        class="modal fade"
+                        tabindex="-1"
+                        style="display: block"
+                        aria-modal="true"
+                        role="dialog"
+                    >
+                        <div class="modal-dialog modal-fullscreen">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title h4">Profile</h5>
+                                    <button
+                                        type="button"
+                                        class="btn-close"
+                                        data-bs-dismiss="modal"
+                                        aria-label="Close"
+                                    ></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h4>Data</h4>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="input-group mb-4">
+                                                <span class="input-group-text"
+                                                    >📧</span
+                                                >
                                                 <input
-                                                    x-model="search"
-                                                    type="search"
+                                                    x-bind:value="$store.userStore.user?.email"
+                                                    type="email"
                                                     class="form-control"
-                                                    placeholder="Search product..."
                                                 />
+                                                <span class="input-group-text">
+                                                    <button
+                                                        class="btn btn-primary"
+                                                    >
+                                                        Update
+                                                    </button>
+                                                </span>
                                             </div>
-                                            <div>
-                                                <div x-ref="table-ref"></div>
+                                            <div class="input-group mb-4">
+                                                <span class="input-group-text"
+                                                    >&#128227;</span
+                                                >
+                                                <input
+                                                    x-bind:value="$store.userStore.user?.user_metadata?.username"
+                                                    type="text"
+                                                    class="form-control"
+                                                />
+                                                <span class="input-group-text">
+                                                    <button
+                                                        class="btn btn-primary"
+                                                    >
+                                                        Update
+                                                    </button>
+                                                </span>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <!-- END: Table -->
-                            </template>
+                                <div class="modal-footer">
+                                    <p>
+                                        Lorem ipsum dolor sit amet consectetur
+                                        adipisicing elit. Amet, ullam.
+                                    </p>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </template>
-                <!-- END: Dashboard -->
+                    <!-- END: Profile -->
+                </div>
             </template>
 
             <!-- If not user -->
